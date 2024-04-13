@@ -329,6 +329,27 @@ def challenge7():
     output = decrypt_aes_128(input,key)
     ans= output.decode('utf-8')
     assert("Play that funky music" in ans)
-    print(ans)
+    #print(ans)
 
 challenge7()
+
+def detect_repeat_16(input: bytes):
+    blocks = len(input)//16
+    seen_blocks = set()
+    good= False
+    for i in range(blocks):
+        block = input[i*16:i*16+16]
+        if(block in seen_blocks):
+            good=True
+        seen_blocks.add(block)
+    return good
+
+def challenge8():
+    with open("8.txt", "r") as file:
+        for line in file:
+            input64 = line.strip()
+            input = base64.b64decode(input64)
+            if(detect_repeat_16(input)):
+                assert("d88061" in input64)
+           
+challenge8()
